@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WoofingJace ID - Mint Your NFT</title>
+    <link rel="shortcut icon" href="https://woofingjace.com/images/jace.png" type="image/x-icon">
+    <link href='https://fonts.googleapis.com/css2?family=VT323&display=swap' rel='stylesheet'>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding-bottom: 60px;
+            font-family: 'VT323', monospace;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #00ffcc;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        h2 {
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #00ffcc, 0 0 20px #ff007f;
+            margin: 20px;
+        }
+        .container {
+            width: 600px;
+            max-width: 90%;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ffcc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 0 15px #00ffcc;
+        }
+        .wallet-info {
+            font-size: 1.2em;
+            text-shadow: 0 0 5px #00ffcc;
+            margin: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #ff007f;
+            border-radius: 10px;
+        }
+        .input-box {
+            margin: 15px 0;
+        }
+        .input-box label {
+            display: block;
+            font-size: 1.2em;
+            text-shadow: 0 0 5px #00ffcc;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #ff007f;
+            border-radius: 5px;
+            color: #00ffcc;
+            font-family: 'VT323', monospace;
+            font-size: 1em;
+            text-shadow: 0 0 3px #00ffcc;
+        }
+        .action-button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background: #ff007f;
+            color: #00ffcc;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'VT323', monospace;
+            box-shadow: 0 0 10px #ff007f;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .action-button:disabled {
+            background: #4a4f7a;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .action-button:hover:not(:disabled) {
+            background: #00ffcc;
+            color: #ff007f;
+            box-shadow: 0 0 15px #00ffcc;
+        }
+        .nft-info, .owned-nfts {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border: 1px solid #ff007f;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        .nft-info p, .owned-nfts p {
+            font-size: 1em;
+            text-shadow: 0 0 3px #00ffcc;
+            margin: 5px 0;
+        }
+        .owned-nfts ul {
+            list-style: none;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 0;
+        }
+        .owned-nfts li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #ff007f;
+        }
+        .view-button {
+            padding: 5px 10px;
+            background: #ff007f;
+            color: #00ffcc;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'VT323', monospace;
+            font-size: 0.9em;
+            box-shadow: 0 0 5px #ff007f;
+        }
+        .view-button:hover {
+            background: #00ffcc;
+            color: #ff007f;
+            box-shadow: 0 0 10px #00ffcc;
+        }
+        .nft-preview {
+            margin: 10px 0;
+        }
+        .nft-preview img {
+            max-width: 100%;
+            border: 1px solid #00ffcc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #00ffcc;
+        }
+        .dog-message {
+            font-size: 1em;
+            color: #ff007f;
+            text-shadow: 0 0 5px #ff007f;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ffcc;
+            font-size: 1em;
+            text-shadow: 0 0 5px #00ffcc;
+            z-index: 1000;
+        }
+        footer a {
+            color: #ff007f;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 620px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+            h2 {
+                font-size: 1.8em;
+                margin: 15px;
+            }
+            .wallet-info {
+                font-size: 1em;
+                padding: 8px;
+            }
+            .action-button {
+                padding: 8px 16px;
+                font-size: 1em;
+            }
+            .nft-info p, .owned-nfts p {
+                font-size: 0.9em;
+            }
+            .view-button {
+                font-size: 0.8em;
+                padding: 4px 8px;
+            }
+            footer {
+                font-size: 0.9em;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>WoofingJace ID - Mint Your NFT</h2>
+    <div class="wallet-info" id="walletInfo">Detecting wallet...</div>
+    <div class="container">
+        <div class="input-box">
+            <button class="action-button" id="connectWalletButton">Connect Wallet</button>
+            <div class="dog-message" id="dogMessage">Woof! Connect your wallet to mint NFTs, pup!</div>
+        </div>
+        <div class="input-box">
+            <label for="nftId">NFT ID (e.g., jace123)</label>
+            <input type="text" id="nftId" placeholder="e.g., jace123">
+        </div>
+        <button class="action-button" id="mintButton" onclick="mintNFT()">Mint NFT</button>
+        <div class="nft-info" id="nftInfo">
+            <p>Contract: <span id="nftInfoAddress">0xFC8E612a097E091CA8fbD5327ABf63E4E50C8005</span></p>
+            <p>Name: <span id="nftInfoName"></span></p>
+            <p>Symbol: <span id="nftInfoSymbol"></span></p>
+            <p>Suffix: <span id="nftInfoSuffix"></span></p>
+            <p>Total Minted: <span id="nftInfoTotalSupply"></span></p>
+        </div>
+        <div class="owned-nfts">
+            <p>Owned NFTs</p>
+            <ul id="ownedNFTsList"></ul>
+        </div>
+        <div class="nft-preview" id="nftPreview" style="display: none;">
+            <p>NFT Preview</p>
+            <img id="nftImage" src="" alt="NFT Preview">
+        </div>
+    </div>
+    <footer>
+        Official Website: <a href="https://woofingjace.com/" target="_blank">woofingjace.com</a>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+    <script>
+        const contractAddress = '0xFC8E612a097E091CA8fbD5327ABf63E4E50C8005';
+        const nftAbi = [
+            {
+                "inputs": [
+                    {"internalType": "string", "name": "_id", "type": "string"}
+                ],
+                "name": "mint",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {"indexed": true, "internalType": "address", "name": "minter", "type": "address"},
+                    {"indexed": false, "internalType": "uint256", "name": "tokenId", "type": "uint256"},
+                    {"indexed": false, "internalType": "string", "name": "id", "type": "string"}
+                ],
+                "name": "Minted",
+                "type": "event"
+            },
+            {
+                "inputs": [{"internalType": "uint256", "name": "tokenId", "type": "uint256"}],
+                "name": "tokenName",
+                "outputs": [{"internalType": "string", "name": "", "type": "string"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [{"internalType": "uint256", "name": "tokenId", "type": "uint256"}],
+                "name": "tokenURI",
+                "outputs": [{"internalType": "string", "name": "", "type": "string"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {"internalType": "address", "name": "owner", "type": "address"},
+                    {"internalType": "uint256", "name": "index", "type": "uint256"}
+                ],
+                "name": "tokenOfOwnerByIndex",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "totalSupply",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "name",
+                "outputs": [{"internalType": "string", "name": "", "type": "string"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "symbol",
+                "outputs": [{"internalType": "string", "name": "", "type": "string"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "SUFFIX",
+                "outputs": [{"internalType": "string", "name": "", "type": "string"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [{"internalType": "string", "name": "", "type": "string"}],
+                "name": "idsMintedLower",
+                "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [{"internalType": "address", "name": "owner", "type": "address"}],
+                "name": "balanceOf",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+
+        const chains = {
+            BNBChain: {
+                chainId: 56,
+                chainName: 'BNB Chain',
+                rpcUrl: 'https://bsc-dataseed.binance.org/',
+                blockExplorerUrls: ['https://bscscan.com'],
+                nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 }
+            }
+        };
+
+        let web3, account, nftContract;
+
+        const dogMessages = {
+            connectSuccess: ["Woof! Wallet connected, ready to mint, pup!", "Arf! You're in, let's mint some NFTs!", "Bark! Wallet's ready, time to create!"],
+            connectFail: ["Woof! Couldn't connect wallet, try again, pup!", "Arf! Wallet connection failed, give it another go!", "Bark! Something went wrong, check your wallet!"],
+            mintStart: ["Woof! Minting your NFT, hold tight, pup!", "Arf! Crafting your NFT now!", "Bark! Minting in progress!"],
+            mintSuccess: ["Woof! NFT minted, you're a collector, pup!", "Arf! Your NFT is ready, check it out!", "Bark! Success! NFT created!"],
+            mintFail: ["Woof! Minting failed, check details, pup!", "Arf! Something went wrong, try again!", "Bark! Minting hit a snag, retry!"],
+            mintExists: ["Woof! This NFT ID is already minted, pup!", "Arf! That ID is taken, try another!", "Bark! NFT ID already exists, pick a new one!"],
+            noInput: ["Woof! Enter an NFT ID, pup!", "Arf! Can't mint without an ID!", "Bark! Need an ID to proceed!"],
+            userDenied: ["Woof! You canceled the transaction, pup!", "Arf! Transaction denied, try again when ready!", "Bark! You said no, let's try again!"],
+            networkFail: ["Woof! Failed to switch to BNB Chain, pup!", "Arf! Network switch failed, try again!", "Bark! Can't connect to BNB Chain, check your settings!"]
+        };
+
+        function getRandomMessage(type) {
+            const messages = dogMessages[type];
+            return messages[Math.floor(Math.random() * messages.length)];
+        }
+
+        function detectWallet() {
+            const provider = window.ethereum;
+            if (!provider) {
+                return { name: null, provider: null };
+            }
+            if (provider.isMetaMask) return { name: 'MetaMask', provider };
+            if (provider.isOkxWallet) return { name: 'OKX Wallet', provider };
+            if (provider.isTrustWallet) return { name: 'Trust Wallet', provider };
+            if (provider.isCoinbaseWallet) return { name: 'Coinbase Wallet', provider };
+            if (provider.isBitget) return { name: 'Bitget Wallet', provider };
+            if (provider.isRabby) return { name: 'Rabby Wallet', provider };
+            if (window.walletConnect) return { name: 'WalletConnect', provider: window.walletConnect };
+            return { name: 'Unknown Wallet', provider };
+        }
+
+        async function initializeWeb3() {
+            const walletInfo = document.getElementById('walletInfo');
+            const connectButton = document.getElementById('connectWalletButton');
+            const dogMessage = document.getElementById('dogMessage');
+
+            const { name, provider } = detectWallet();
+            if (!provider) {
+                walletInfo.textContent = 'No wallet detected. Please install a compatible wallet (e.g., MetaMask).';
+                dogMessage.textContent = 'Woof! No wallet found, pup!';
+                return;
+            }
+
+            try {
+                web3 = new Web3(provider);
+                const accounts = await provider.request({ method: 'eth_requestAccounts' });
+                account = accounts[0];
+                connectButton.textContent = `Connected: ${account.slice(0, 6)}...${account.slice(-4)}`;
+                walletInfo.textContent = `Detected wallet: ${name} on BNB Chain`;
+                dogMessage.textContent = getRandomMessage('connectSuccess');
+
+                await switchNetwork('BNBChain');
+                await initializeContracts();
+                await updateNFTInfo();
+                await updateOwnedNFTs();
+            } catch (error) {
+                walletInfo.textContent = 'Failed to connect wallet.';
+                dogMessage.textContent = getRandomMessage('connectFail');
+                console.error('Wallet connection error:', error.message);
+            }
+        }
+
+        async function switchNetwork(chain) {
+            const chainConfig = chains[chain];
+            const walletInfo = document.getElementById('walletInfo');
+            const dogMessage = document.getElementById('dogMessage');
+
+            try {
+                await window.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: `0x${chainConfig.chainId.toString(16)}` }]
+                });
+            } catch (switchError) {
+                if (switchError.code === 4902) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [{
+                                chainId: `0x${chainConfig.chainId.toString(16)}`,
+                                chainName: chainConfig.chainName,
+                                rpcUrls: [chainConfig.rpcUrl],
+                                nativeCurrency: chainConfig.nativeCurrency,
+                                blockExplorerUrls: chainConfig.blockExplorerUrls
+                            }]
+                        });
+                    } catch (addError) {
+                        walletInfo.textContent = 'Failed to add BNB Chain network.';
+                        dogMessage.textContent = getRandomMessage('networkFail');
+                        console.error('Network add error:', addError.message);
+                        throw addError;
+                    }
+                } else {
+                    walletInfo.textContent = 'Failed to switch to BNB Chain.';
+                    dogMessage.textContent = getRandomMessage('networkFail');
+                    console.error('Network switch error:', switchError.message);
+                    throw switchError;
+                }
+            }
+        }
+
+        async function initializeContracts() {
+            nftContract = new web3.eth.Contract(nftAbi, contractAddress);
+        }
+
+        async function updateNFTInfo() {
+            try {
+                const [name, symbol, suffix, totalSupply] = await Promise.all([
+                    nftContract.methods.name().call(),
+                    nftContract.methods.symbol().call(),
+                    nftContract.methods.SUFFIX().call(),
+                    nftContract.methods.totalSupply().call()
+                ]);
+                document.getElementById('nftInfoName').textContent = name;
+                document.getElementById('nftInfoSymbol').textContent = symbol;
+                document.getElementById('nftInfoSuffix').textContent = suffix.toLowerCase();
+                document.getElementById('nftInfoTotalSupply').textContent = totalSupply;
+            } catch (error) {
+                console.error('NFT info error:', error.message);
+                document.getElementById('dogMessage').textContent = 'Woof! Failed to load contract info, pup!';
+            }
+        }
+
+        async function updateOwnedNFTs() {
+            if (!web3 || !account) return;
+            try {
+                const list = document.getElementById('ownedNFTsList');
+                list.innerHTML = '';
+                const balance = await nftContract.methods.balanceOf(account).call();
+                if (balance == 0) {
+                    list.innerHTML = '<li>No NFTs owned yet.</li>';
+                    return;
+                }
+                const tokenId = await nftContract.methods.tokenOfOwnerByIndex(account, 0).call();
+                const tokenName = await nftContract.methods.tokenName(tokenId).call();
+                const li = document.createElement('li');
+                li.innerText = `NFT: ${tokenName} (ID: ${tokenId})`;
+                const viewButton = document.createElement('button');
+                viewButton.className = 'view-button';
+                viewButton.innerText = 'View';
+                viewButton.onclick = async () => {
+                    const tokenURI = await nftContract.methods.tokenURI(tokenId).call();
+                    const json = JSON.parse(atob(tokenURI.split(',')[1]));
+                    document.getElementById('nftImage').src = json.image;
+                    document.getElementById('nftPreview').style.display = 'block';
+                };
+                li.appendChild(viewButton);
+                list.appendChild(li);
+            } catch (error) {
+                document.getElementById('ownedNFTsList').innerHTML = '<li>Error loading NFTs.</li>';
+                console.error('Owned NFTs error:', error.message);
+            }
+        }
+
+        async function waitForTransaction(txHash) {
+            let receipt = null;
+            const maxAttempts = 30;
+            let attempts = 0;
+            while (attempts < maxAttempts) {
+                receipt = await web3.eth.getTransactionReceipt(txHash);
+                if (receipt) {
+                    if (receipt.status) return receipt;
+                    throw new Error(`Transaction ${txHash} failed`);
+                }
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                attempts++;
+            }
+            throw new Error(`Transaction ${txHash} not confirmed after ${maxAttempts} attempts`);
+        }
+
+        async function mintNFT() {
+            const walletInfo = document.getElementById('walletInfo');
+            const mintButton = document.getElementById('mintButton');
+            const dogMessage = document.getElementById('dogMessage');
+
+            if (!web3 || !account) {
+                walletInfo.textContent = 'Please connect wallet first.';
+                dogMessage.textContent = getRandomMessage('connectFail');
+                return;
+            }
+
+            const nftId = document.getElementById('nftId').value.trim();
+            if (!nftId) {
+                walletInfo.textContent = 'Please enter an NFT ID.';
+                dogMessage.textContent = getRandomMessage('noInput');
+                return;
+            }
+
+            if (!/^[a-zA-Z0-9]+$/.test(nftId)) {
+                walletInfo.textContent = 'NFT ID must be alphanumeric.';
+                dogMessage.textContent = 'Woof! ID can only contain letters and numbers, pup!';
+                return;
+            }
+
+            try {
+                mintButton.disabled = true;
+                mintButton.innerText = 'Checking...';
+                dogMessage.textContent = getRandomMessage('mintStart');
+
+                const nftIdLower = nftId.toLowerCase();
+                const isMinted = await nftContract.methods.idsMintedLower(nftIdLower).call();
+                if (isMinted) {
+                    walletInfo.textContent = 'NFT ID already minted.';
+                    dogMessage.textContent = getRandomMessage('mintExists');
+                    mintButton.innerText = 'Mint NFT';
+                    mintButton.disabled = false;
+                    return;
+                }
+
+                const hasMinted = await nftContract.methods.ownerToTokenId(account).call();
+                if (hasMinted != 0) {
+                    walletInfo.textContent = 'Address already minted an NFT.';
+                    dogMessage.textContent = 'Woof! You already have an NFT, pup!';
+                    mintButton.innerText = 'Mint NFT';
+                    mintButton.disabled = false;
+                    return;
+                }
+
+                mintButton.innerText = 'Minting...';
+                const tx = await nftContract.methods.mint(nftId).send({
+                    from: account,
+                    gas: web3.utils.toHex(2000000)
+                });
+
+                await waitForTransaction(tx.transactionHash);
+                walletInfo.textContent = 'NFT minted successfully!';
+                dogMessage.textContent = getRandomMessage('mintSuccess');
+                await updateNFTInfo();
+                await updateOwnedNFTs();
+            } catch (error) {
+                if (error.code === 4001) {
+                    walletInfo.textContent = 'Transaction canceled by user.';
+                    dogMessage.textContent = getRandomMessage('userDenied');
+                } else {
+                    walletInfo.textContent = 'Minting failed.';
+                    dogMessage.textContent = getRandomMessage('mintFail');
+                    console.error('Minting error:', error.message);
+                }
+            } finally {
+                mintButton.innerText = 'Mint NFT';
+                mintButton.disabled = false;
+            }
+        }
+
+        document.getElementById('connectWalletButton').addEventListener('click', initializeWeb3);
+    </script>
+</body>
+</html>
